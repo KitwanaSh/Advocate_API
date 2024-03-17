@@ -59,3 +59,8 @@ def advocate_detail(request, username):
         serializer = AdvocateSerializer(advocate, many=False)
 
         return Response(serializer.data)
+
+    if request.method == "DELETE":
+        advocate.delete()
+
+        return Response("User has been deleted!")
