@@ -45,6 +45,17 @@ def advocate_list(request):
 @api_view(["GET", "PUT", "DELETE"])
 def advocate_detail(request, username):
     advocate = Advocates.objects.get(username=username)
-    serializer = AdvocateSerializer(advocate, many=False)
+    if request.method == "GET":
+        serializer = AdvocateSerializer(advocate, many=False)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+
+    if request.method == "PUT":
+        advocate.username = request.data["username"]
+        advocate.bio = request.data["bio"]
+
+        advocate.save()
+
+        serializer = AdvocateSerializer(advocate, many=False)
+
+        return Response(serializer.data)
