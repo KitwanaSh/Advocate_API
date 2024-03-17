@@ -5,8 +5,14 @@ from rest_framework.response import Response
 from django.db.models import Q
 
 from .models import Advocates
-
 from .serializers import AdvocateSerializer
+
+# advocate_list/GET
+# advocate_list/POST
+
+# advocate_detail/GET
+# advocate_detail/PUT
+# advocate_detail/DELETE
 
 @api_view(["GET", "POST"])
 def advocate_list(request):
@@ -35,3 +41,10 @@ def advocate_list(request):
         serializer = AdvocateSerializer(advocate, many=False)
 
         return Response(serializer.data)
+    
+@api_view(["GET", "PUT", "DELETE"])
+def advocate_detail(request, username):
+    advocate = Advocates.objects.get(username=username)
+    serializer = AdvocateSerializer(advocate, many=False)
+
+    return Response(serializer.data)
