@@ -8,7 +8,7 @@ class CompanySerializer(ModelSerializer):
         fields = "__all__"
 
     def get_employee_count(self, obj):
-        count = obj.advocate_set.count()
+        count = obj.advocates_set.count()
         return count
 
 class AdvocateSerializer(ModelSerializer):
