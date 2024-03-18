@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
 
-from .models import Advocates
-from .serializers import AdvocateSerializer
+from .models import Advocates, Company
+from .serializers import AdvocateSerializer, CompanySerializer
 
 # advocate_list/GET
 # advocate_list/POST
@@ -73,7 +73,12 @@ class AdvocateDetail(APIView):
 
         return Response("User has been deleted!")
 
+@api_view(["GET"])
+def company_list(request):
+    companies = Company.objects.all()
+    serializer = CompanySerializer(companies, many=True)
 
+    return Response(serializer.data)
 # @api_view(["GET", "PUT", "DELETE"])
 # def advocate_detail(request, username):
 #     advocate = Advocates.objects.get(username=username)
