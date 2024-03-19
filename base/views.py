@@ -3,6 +3,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
 from .models import Advocates, Company
@@ -16,7 +17,7 @@ from .serializers import AdvocateSerializer, CompanySerializer
 # advocate_detail/DELETE
 
 @api_view(["GET", "POST"])
-def advocate_list(request):
+def advocates(request):
     # Handle the GET request
     if request.method == "GET":
         query = request.GET.get("query")
@@ -49,7 +50,8 @@ class AdvocateDetail(APIView):
             return Advocates.objects.get(username=username)
         except Advocates.DoesNotExist:
             return Response("User does not exist!")
-
+    
+    permission_classes = [IsAuthenticated]
     def get(self, request, username):
         advocate = self.get_objects(username)
         serializer = AdvocateSerializer(advocate, many=False)
